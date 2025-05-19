@@ -8,20 +8,84 @@
   </head>
   <body>
     <h1 class="title">Minish games</h1>
+
     <h2>名前</h2>
-    <input value="名無し" required="required" />
+    <input id="name" value="名無し" required />
+
     <h2>HP</h2>
-    <input value=0 type="number" required="required" />
+    <input id="hp" value="0" type="number" required />
+
     <h2>POWER</h2>
-    <input value=0 type="number" required="required" />
+    <input id="power" value="0" type="number" required />
+
     <h2>SPEED</h2>
-    <input value=0 type="number" required="required" />
+    <input id="speed" value="0" type="number" required />
+
     <h2>LUCK</h2>
-    <input value=0 type="number"  required="required" />
-		<div>
-			<p>最大：100</p>
-			<p>現在の合計：100</p>
-		</div>
-		<button class="home" onclick="window.location.href='/src/home.html'">登録</button>
+    <input id="luck" value="0" type="number" required />
+
+    <div>
+      <p>最大：100</p>
+      <p id="total">現在の合計：100</p>
+    </div>
+
+    <button class="home" id="registerBtn">登録</button>
+
+    <script>
+      const hpInput = document.getElementById("hp");
+      const powerInput = document.getElementById("power");
+      const speedInput = document.getElementById("speed");
+      const luckInput = document.getElementById("luck");
+      const totalDisplay = document.getElementById("total");
+
+      // 入力が変更されたときに合計を更新する関数
+      function updateTotal() {
+        const hp = parseInt(hpInput.value, 10) || 0;
+        const power = parseInt(powerInput.value, 10) || 0;
+        const speed = parseInt(speedInput.value, 10) || 0;
+        const luck = parseInt(luckInput.value, 10) || 0;
+
+        const total = hp + power + speed + luck;
+        totalDisplay.textContent = `現在の合計：${total}`;
+        if(total > 100) totalDisplay.style.color = 'red';
+        else totalDisplay.style.color = 'black';
+      }
+
+      // 各入力にイベントリスナーをつける
+      [hpInput, powerInput, speedInput, luckInput].forEach((input) => {
+        input.addEventListener("input", updateTotal);
+      });
+
+      // 最初に1回呼んでおく
+      updateTotal();
+
+      // 登録ボタンを押した時にローカルストレージに保存
+      // 合計が100を超えてたら弾く
+      document.getElementById("registerBtn").addEventListener("click", () => {
+        const name = document.getElementById("name").value;
+        const hp = parseInt(document.getElementById("hp").value, 10);
+        const power = parseInt(document.getElementById("power").value, 10);
+        const speed = parseInt(document.getElementById("speed").value, 10);
+        const luck = parseInt(document.getElementById("luck").value, 10);
+
+        const total = hp + power + speed + luck;
+
+        if (total > 100) {
+          alert("合計が100を超えています");
+          return;
+        }
+
+        const player = {
+          name,
+          hp,
+          power,
+          speed,
+          luck,
+        };
+
+        localStorage.setItem("player", JSON.stringify(player));
+        window.location.href = "/src/home.html";
+      });
+    </script>
   </body>
 </html>
