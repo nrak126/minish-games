@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minish Games</title>
+  </head>
+  <body>
+    <h1 class="title">Minish games</h1>
+
+    <h2>名前</h2>
+    <p id="name"></p>
+
+    <h2>HP</h2>
+    <p id="hp" value="0" type="number" required></p>
+
+    <h2>POWER</h2>
+    <p id="power" value="0" type="number" required></p>
+
+    <h2>SPEED</h2>
+    <p id="speed" value="0" type="number" required></p>
+
+    <h2>LUCK</h2>
+    <p id="luck" value="0" type="number" required></p>
+
+    <div>
+      <p id="total"></p>
+    </div>
+
+    <button class="back" onclick="window.location.href='/src/home.html'">
+      戻る
+    </button>
+  </body>
+	<script>
+		const player = JSON.parse(localStorage.getItem("player"));
+		console.log(player);
+		document.getElementById('name').textContent = player.name;
+		document.getElementById('hp').textContent = player.hp;
+		document.getElementById('power').textContent = player.power;
+		document.getElementById('speed').textContent = player.speed;
+		document.getElementById('luck').textContent = player.luck;
+	</script>
+</html>
