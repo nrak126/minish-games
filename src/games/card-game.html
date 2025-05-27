@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minish Games</title>
-  </head>
-  <body>
-    <h1 class="title">カードゲーム</h1>
-		<button class="home" onclick="window.location.href='../home.html'">戻る</button>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="cardGame_style.css">
+        <!-- ボタンデザインの読み込み -->
+        <link rel="stylesheet" href="./button_design/start_button.css">
+        <link rel="stylesheet" href="./button_design/tutorial_button.css">
+        <link rel="stylesheet" href="./button_design/menu_button.css">
+        <link rel="stylesheet" href="./button_design/turn_end_button.css">
+    </head>
+    <body onload="preparation()">
+        <div id="setting">
+            <input type="number" id="size" min="1" max="5" value="1.5" autocomplete="off" />
+            <input type="button" id="size_button" value="サイズ変更" onclick="changeSize()" />
+
+            <input type="number" id="HP_set" min="0" max="100" value="20" autocomplete="off" />
+            <hr>
+        </div>
+
+        <div id="mainField"></div>
+        
+        <p>tmp</p>
+
+        <script src="../assets/js/card-game.js"></script>
+    </body>
 </html>
+
+  
