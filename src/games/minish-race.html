@@ -6,15 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minish Games</title>
   </head>
+  <body onload="init()">
+    <h1 class="title">Minish Race</h1>
+    <input type="button" id="start" value="START" onclick="startGame()">
+    <button type="button" class="dialog_showbutton" aria-expanded="false" aria-controls="modal">
+    説明
+    </button>
+    <dialog id="modal" class="dialog">
+        <div class="dialog_inner">
+            STARTボタンを押してスタート<br>
+            左矢印キー（もしくはAキー）：左移動<br>
+            右矢印キー（もしくはDキー）：右移動<br>
+            上矢印キー（もしくはWキー）：加速<br>
+            加速ボタンを連打して、道路にある青い障害物を避けながら、規定時間内にゴールを目指そう<br>
+            <button type="button" aria-controls="modal" aria-expanded="false" class="dialog_closebutton">
+            閉じる
+            </button>
+        </div>
+    </dialog>
+    Time: <span id="time" class="bold">--.--</span>
+    Record: <span id="record" class="bold">--.--</span>
+    Qualify: <class="bold">30.00</span>
+    <span id="message" class="red"></span>
+    <hr>
+    <progress id="speed" max="1" value="0"></progress><br>
+    <canvas id="course" width="600" height="400"></canvas>
+    <hr>
+    <button class="home" onclick="window.location.href='/src/home.html'">戻る</button>
+  </body>
   <script>
         let canvas, context; //キャンバス
         const [goal, view] = [600, 50]; //ゴール位置、視界の長さ
         let [px, pz, speed] = [0, 0, 0]; //プレイヤーの位置、速度
         let startTime = 0, timer; //開始時間、タイマー
         let status = "ready"; //ステータス(ready/start)
+        //ダイアログ用
+        const dialog = document.querySelector(".dialog");
+        const showButton = document.querySelector(".dialog_showbutton");
+        const closeButton = document.querySelector(".dialog_closebutton");
+
         //コースデータ（０：直進、＋：右カーブ、ー：左カーブ）
         const course = new Array();
-        const courseData = [0, 0.3, 0.3, -0.3, 0, 0.5, -0.3, 0.5,0.8, 0, 0];
+        const courseData = [0, 0.3, 0.3, -0.3, 0, 0.5, -0.3, 0.5, 0.8, 0, 0];
 
         const init = () => { /*関数式の例*/
             //キャンバスの取得
@@ -105,7 +138,7 @@
                     drawTrapezoid(ox, oy, ow * 1.2, x, y, w * 1.2, c2);
                     drawTrapezoid(ox, oy, ow, x, y, w, c3);
                     drawTrapezoid(ox, oy, ow * 0.05, x, y, w * 0.05, c4);
-                    drawSunny(40, 50, 60, c4);
+                    drawSunny();
                     if(course[i][1] == 1){
                         drawTrapezoid(ox - ow / 4, oy, ow / 4, x - w / 4, y, w / 4, c5);
                     }else if(course[i][1] == 2){
@@ -137,6 +170,10 @@
                     //ローカルストレージに格納
                     localStorage.setItem("race", time);
                 }
+                if((time < 30.00)){
+                    document.getElementById("message").classList.add("red");
+                    document.getElementById("message").innerText = "Clear!";
+                }
             }
         }
 
@@ -150,15 +187,14 @@
             context.lineTo(x2 - w2 / 2, y2);
             context.fill();
         }
-        const drawSunny = (x1, y1, color) => {
-            //台形の描画
-            context.fillStyle = color;
+        const drawSunny = () => {
+            //四角形の描画
+            context.fillStyle = "#F3C623";
             context.beginPath();
-            context.moveTo(x1, y1);
-            context.lineTo(x1/ 2, y1);
-            context.lineTo(x1/ 2, y1-20);
-            context.lineTo(x1+30/ 2, y1-60);
-            context.lineTo(x1+30/ 2, y1-60);
+            context.moveTo(220 + px*80, 120);
+            context.lineTo(380 + px*80, 120);
+            context.lineTo(380 + px*80, 204);
+            context.lineTo(220 + px*80, 204);
             context.fill();
         }
         const drawText = text => {
@@ -175,23 +211,33 @@
 
         const move = event => {
             //キーを押したとき
-            if(event.key == "ArrowUp") speed += 0.01;
-            if((status == "start") && (event.key == "ArrowLeft")) px -= 0.5;
-            if((status == "start") && (event.key == "ArrowRight")) px += 0.5;
+            if((status == "start") && event.key == "ArrowUp" || event.code == "KeyW"){
+                speed += 0.01-0.004; //0.004=最小で引く数
+            }
+            if((status == "start") && (event.key == "ArrowLeft") || (event.code == "KeyA")){
+                px -= 0.5;
+            }
+            if((status == "start") && (event.key == "ArrowRight") || (event.code == "KeyD")){
+                px += 0.5;
+            }
         }
+
+        const showDialog = () => {
+            dialog.showModal();
+        }
+
+        const closeDialog = () => {
+            dialog.close();
+        }
+
+        showButton.addEventListener("click", () => {
+            showDialog();
+        });
+
+        closeButton.addEventListener("click", () => {
+            closeDialog();
+        });
+
     </script>
-  </head>
-  <body　onload="init()">
-    <h1 class="title">Minish Race</h1>
-    <input type="button" id="start" value="START" onclick="startGame()">
-    <input type="button" value="説明" onclick="">
-    Time: <span id="time" class="bold">--.--</span>
-    Record: <span id="record" class="bold">--.--</span>
-    <span id="message" class="red"></span>
-    <hr>
-    <progress id="speed" max="1" value="0"></progress><br>
-    <canvas id="course" width="600" height="400"></canvas>
-		<button class="home" onclick="window.location.href='../home.html'">戻る</button>
-        <p>ewafwfawefawefffdffaw</p>
-  </body>
 </html>
+
