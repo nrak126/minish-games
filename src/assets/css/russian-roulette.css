@@ -1,0 +1,56 @@
+/* 全体の背景と基本フォント */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: silver;
+    color: black;
+    text-align: center;
+}
+
+/* 各画面の共通レイアウト */
+.screen {
+    display: none;
+    padding: 40px 20px;
+}
+
+.screen.active { /* .screenのdisplay: noneを上書きする*/
+    display: block;
+}
+
+/* タイトルの位置調整（上部中央） */
+h1 {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+}
+
+/* リボルバー画像の配置とサイズ（中部中央） */
+img {
+    display: block;
+    margin: 30px auto;
+    max-width: 80vw;
+    height: auto;
+}
+
+/* ボタンの共通スタイル（下部中央に縦並び） */
+button {
+      display: block;
+      width: 80%;
+      max-width: 400px;
+      margin: 15px auto;
+      padding: 16px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      transition: background-color 1.2s;
+}
+
+button:hover {
+  background-color: #666;
+}
+
+
