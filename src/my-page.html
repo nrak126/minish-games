@@ -5,32 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minish Games</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
   </head>
   <body>
     <h1 class="title">Minish games</h1>
 
-    <h2>名前</h2>
-    <p id="name"></p>
+    <div class="my-page">
+      <div class="character-info">
+        <h2 class="character-name" id="name"></h2>
+        
+        <div class="status-grid">
+          <div class="status-card">
+            <h2>HP</h2>
+            <p class="status-value" id="hp"></p>
+          </div>
 
-    <h2>HP</h2>
-    <p id="hp" value="0" type="number" required></p>
+          <div class="status-card">
+            <h2>POWER</h2>
+            <p class="status-value" id="power"></p>
+          </div>
 
-    <h2>POWER</h2>
-    <p id="power" value="0" type="number" required></p>
+          <div class="status-card">
+            <h2>SPEED</h2>
+            <p class="status-value" id="speed"></p>
+          </div>
 
-    <h2>SPEED</h2>
-    <p id="speed" value="0" type="number" required></p>
+          <div class="status-card">
+            <h2>LUCK</h2>
+            <p class="status-value" id="luck"></p>
+          </div>
+        </div>
+      </div>
 
-    <h2>LUCK</h2>
-    <p id="luck" value="0" type="number" required></p>
-
-    <div>
-      <p id="total"></p>
+      <div class="action-buttons">
+        <button class="back-button" onclick="window.location.href='home.html'">
+          ホームに戻る
+        </button>
+      </div>
     </div>
-
-    <button class="back" onclick="window.location.href='home.html'">
-      戻る
-    </button>
   </body>
 	<script>
 		const player = JSON.parse(localStorage.getItem("player"));

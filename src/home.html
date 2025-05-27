@@ -5,39 +5,77 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minish Games</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
   </head>
   <body>
-		<h1 class="title">Minish games</h1>
-		<div>
-			<button onclick="window.location.href = 'my-page.html'">
-				<h2>
-					マイページ
-				</h2>
-			</button>
-		</div>
-		<div class="game-container">
-			<img src="../public/games/power_janken/icon.png" />
-			<h2>カードゲーム</h2>
-			<button class="install" onclick="window.location.href='games/card-game.html'">インストール</button>
-			<button class="game-start" onclick="window.location.href='games/card-game.html'">開く</button>
-		</div>
-		<div class="game-container">
-			<img src="../public/games/power_janken/icon.png" />
-			<h2>パワーじゃんけん</h2>
-			<button class="install" onclick="window.location.href='games/power-janken.html'">インストール</button>
-			<button class="game-start" onclick="window.location.href='games/power-janken.html'">開く</button>
-		</div>
-		<div class="game-container">
-			<img src="../public/games/power_janken/icon.png" />
-			<h2>minish race</h2>
-			<button class="install" onclick="window.location.href='games/minish-race.html'">インストール</button>
-			<button class="game-start" onclick="window.location.href='games/minish-race.html'">開く</button>
-		</div>
-		<div class="game-container">
-			<img src="../public/games/power_janken/icon.png" />
-			<h2>ロシアンルーレット</h2>
-			<button class="install" onclick="window.location.href='games/russian-roulette.html'">インストール</button>
-			<button class="game-start" onclick="window.location.href='games/russian-roulette.html'">開く</button>
-		</div>
+    <h1 class="title">Minish games</h1>
+    <button class="register-btn" onclick="window.location.href = 'my-page.html'">
+      マイページ
+    </button>
+    
+    <div class="games-grid">
+      <div class="game-container">
+        <img src="../public/games/power_janken/icon.png" alt="カードゲーム" />
+        <h2>カードゲーム</h2>
+        <div class="game-buttons">
+          <button class="install" data-game="card-game" data-installed="false">インストール</button>
+        </div>
+      </div>
+
+      <div class="game-container">
+        <img src="../public/games/power_janken/icon.png" alt="パワーじゃんけん" />
+        <h2>パワーじゃんけん</h2>
+        <div class="game-buttons">
+          <button class="install" data-game="power-janken" data-installed="false">インストール</button>
+        </div>
+      </div>
+
+      <div class="game-container">
+        <img src="../public/games/power_janken/icon.png" alt="Minish Race" />
+        <h2>Minish Race</h2>
+        <div class="game-buttons">
+          <button class="install" data-game="minish-race" data-installed="false">インストール</button>
+        </div>
+      </div>
+
+      <div class="game-container">
+        <img src="../public/games/power_janken/icon.png" alt="ロシアンルーレット" />
+        <h2>ロシアンルーレット</h2>
+        <div class="game-buttons">
+          <button class="install" data-game="russian-roulette" data-installed="false">インストール</button>
+        </div>
+      </div>
+    </div>
+		<script>
+      // インストールの状態をローカルストレージから読み込む
+      document.querySelectorAll('.install').forEach(button => {
+        const game = button.dataset.game;
+        const isInstalled = localStorage.getItem(`installed_${game}`) === 'true';
+        if (isInstalled) {
+          button.classList.add('installed');
+          button.textContent = '開く';
+          button.dataset.installed = 'true';
+        }
+      });
+
+      // インストールボタンのクリックイベント
+      document.querySelectorAll('.install').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const game = e.target.dataset.game;
+          const isInstalled = e.target.dataset.installed === 'true';
+
+          if (!isInstalled) {
+            // インストール処理
+            e.target.classList.add('installed');
+            e.target.textContent = '開く';
+            e.target.dataset.installed = 'true';
+            localStorage.setItem(`installed_${game}`, 'true');
+          } else {
+            // 開くの処理
+            window.location.href = `games/${game}.html`;
+          }
+        });
+      });
+		</script>
 	</body>
 </html>

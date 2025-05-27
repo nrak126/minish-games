@@ -5,31 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minish Games</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
   </head>
   <body>
     <h1 class="title">Minish games</h1>
 
-    <h2>名前</h2>
-    <input id="name" value="名無し" required />
+    <div class="signup-form">
+      <div class="character-form">
+        <input type="text" class="character-name-input" id="name" value="名無し" placeholder="キャラクター名" required />
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h2>HP</h2>
+            <input type="number" class="stat-input" id="hp" value="0" min="0" required />
+          </div>
 
-    <h2>HP</h2>
-    <input id="hp" value="0" type="number" required />
+          <div class="stat-card">
+            <h2>POWER</h2>
+            <input type="number" class="stat-input" id="power" value="0" min="0" required />
+          </div>
 
-    <h2>POWER</h2>
-    <input id="power" value="0" type="number" required />
+          <div class="stat-card">
+            <h2>SPEED</h2>
+            <input type="number" class="stat-input" id="speed" value="0" min="0" required />
+          </div>
 
-    <h2>SPEED</h2>
-    <input id="speed" value="0" type="number" required />
+          <div class="stat-card">
+            <h2>LUCK</h2>
+            <input type="number" class="stat-input" id="luck" value="0" min="0" required />
+          </div>
+        </div>
 
-    <h2>LUCK</h2>
-    <input id="luck" value="0" type="number" required />
+        <div class="status-total">
+          <p class="max-status">ステータスポイントの最大値：100</p>
+          <p class="current-total" id="total">現在の合計：100</p>
+        </div>
 
-    <div>
-      <p>最大：100</p>
-      <p id="total">現在の合計：100</p>
+        <button class="register-btn" id="registerBtn">登録</button>
+      </div>
     </div>
-
-    <button class="home" id="registerBtn">登録</button>
 
     <script>
       const hpInput = document.getElementById("hp");
@@ -84,6 +98,10 @@
         };
 
         localStorage.setItem("player", JSON.stringify(player));
+        localStorage.setItem(`installed_card-game`, 'false');
+        localStorage.setItem(`installed_power-janken`, 'false');
+        localStorage.setItem(`installed_minish-race`, 'false');
+        localStorage.setItem(`installed_russian-roulette`, 'false');
         window.location.href = 'home.html';
       });
     </script>
