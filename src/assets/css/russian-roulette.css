@@ -35,22 +35,27 @@ img {
 
 /* ボタンの共通スタイル（下部中央に縦並び） */
 button {
-      display: block;
-      width: 80%;
-      max-width: 400px;
-      margin: 15px auto;
-      padding: 16px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background-color: #444;
-      color: white;
-      cursor: pointer;
-      transition: background-color 1.2s;
+    display: block;
+    width: 80%;
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 16px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: background-color 1.2s;
 }
 
 button:hover {
-  background-color: #666;
+    background-color: #666;
 }
 
-
+/* ホームに戻るボタンのスタイル */
+.home {
+    margin-left: 0;
+    width: auto;
+    height: auto;
+}
