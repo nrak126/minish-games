@@ -1,13 +1,53 @@
 <!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minish Games</title>
-  </head>
-  <body>
-    <h1 class="title">ロシアンルーレット</h1>
-		<button class="home" onclick="window.location.href='../home.html'">戻る</button>
-  </body>
-</html>
+  <html lang="ja">
+    <head>
+      <meta charset="UTF-8">
+      <title>Minish Games</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="../assets/css/russian-roulette.css"> <!-- CSSの読み込み -->
+    </head>
+
+    <body>
+      <button class="home" onclick="window.location.href='../home.html'">戻る</button>
+      <!-- タイトル画面 -->
+      <div id="title-screen" class="screen active"> <!-- idはJavaScriptで画面を制御するのに使用する
+	     classは共通の画面スタイルを与える
+	     activeだけが今表示されている画面を意味する(CSSとJSで制御) -->
+	<h1>ロシアンルーレット</h1>
+	<img src="../assets/russian-roulette/revolver.png" alt="リボルバー">
+	<button onclick="showScreen('game'); showTurn();">スタート</button>
+	<button onclick="alert('1発だけ装填されたリボルバーを使います\nシリンダーを回すかトリガーを引くか...\n生死をかけた勝負に挑みます')">説明</button>
+      </div>
+
+      <!-- ゲーム画面 -->
+      <div id="game-screen" class="screen">
+	<h1 id="turn-indicator">自分 or 相手の番</h1>
+	<img src="../assets/russian-roulette/revolver.png" alt="リボルバー">
+	<button id="spin-btn" onclick="spinCylinder()">シリンダーを回す</button>
+	    <!-- ボタンをクリックでサウンドを追加 -->
+	    <audio id="spin-sound">
+    	      <source src="../assets/russian-roulette/spin-sound.mp3" type="audio/mp3">
+	    </audio>
+	<button id="trigger-btn" onclick="pullTrigger()">トリガーを引く</button>
+	    <audio id="airShot-sound">
+    	      <source src="../assets/russian-roulette/airShot-sound.mp3" type="audio/mp3">
+	    </audio>
+	    <audio id="shot-sound">
+    	      <source src="../assets/russian-roulette/shot-sound.mp3" type="audio/mp3">
+	    </audio>
+      </div>
+
+      <!-- リザルト画面 -->
+      <div id="result-screen" class="screen">
+	<h1 id="result-message">勝利 or 敗北</h1>
+	<img src="../assets/russian-roulette/revolver.png" alt="リボルバー">
+	<button onclick="restartGame()">もう一度やる</button>
+    <!-- <button onclick="showScreen('title')">ホームに戻る</button> -->
+    <button onclick="window.location.href='../home.html'">ホームに戻る</button>
+      </div>
+
+      <script src="../assets/js/russian-roulette.js"></script> <!-- JSの読み込み -->
+    </body>
+  </html>
+
