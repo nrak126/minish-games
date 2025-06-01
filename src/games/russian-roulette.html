@@ -11,7 +11,6 @@
     <body>
         <!-- ホームに戻るボタン -->
         <button class="home" style="margin-left: 0;" onclick="window.location.href='../home.html'">戻る</button>
-        <p>aaà</p>
 
         <!-- タイトル画面 -->
         <div id="title-screen" class="screen active"> <!-- idはJavaScriptで画面を制御するのに使用する
@@ -20,7 +19,7 @@
         <h1>ロシアンルーレット</h1>
         <img src="../assets/russian-roulette/revolver.png" alt="リボルバー">
         <button onclick="showScreen('game'); showTurn();">スタート</button>
-        <button onclick="alert('1発だけ装填されたリボルバーを使います\nシリンダーを回すかトリガーを引くか...\n生死をかけた勝負に挑みます')">説明</button>
+        <button onclick="alert('ゲーム説明\n\n1. 自分の番から始まって、相手の番と交互に繰り返します\n\n2. プレイヤーは「シリンダーを回す」か「トリガーを引く」を選択してください\n\n3. トリガーを引いて、自分の番で弾が出たら負け、相手の番で弾が出たら勝ちです')">説明</button>
         </div>
 
         <!-- ゲーム画面 -->
