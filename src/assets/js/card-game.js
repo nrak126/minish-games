@@ -3,7 +3,7 @@ let HP = Max_HP;        // 現在のHP
 let stage = 0;          // 現在のステージ数
 let size = 0;
 let retry_flag = false  // リトライフラグ（true:リトライ、false:初回）
-let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6];
+let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6];
 let card_list = card_list_default;
 let card_list_used = [];
 
@@ -105,7 +105,7 @@ const init = () => {
 
     // 最大HPをセット
     if (!retry_flag) Max_HP = document.getElementById("HP_set").value;
-    HP = Max_HP - 5;
+    HP = Max_HP;
 
     // セッティング欄を空にする
     document.getElementById("setting").innerHTML = "";
@@ -156,19 +156,27 @@ const init = () => {
     ill_space.style.left = "0px";
     mainField.appendChild(ill_space);
     // HPスペースの大きさ
-    let HP_space_width = 30;
-    let HP_space_heigth = 30;
+    let HP_space_width = 40;
+    let HP_space_heigth = 40;
     // HPスペースの作成
+    const HP_space_ill = document.createElement("div");
+    HP_space_ill.id = "HP_space_ill";
+    HP_space_ill.style.width = HP_space_width * size + "px";
+    HP_space_ill.style.height = HP_space_heigth * size + "px";
+    HP_space_ill.style.top = Number(mainField.style.height.split("px")[0]) - (HP_space_heigth * size) + "px";
+    HP_space_ill.style.left = Number(ill_space.style.width.split("px")[0]) - (HP_space_width * size) + "px";
+    mainField.appendChild(HP_space_ill);
     const HP_space = document.createElement("div");
     HP_space.id = "HP_space";
     HP_space.style.width = HP_space_width * size + "px";
-    HP_space.style.height = HP_space_heigth * size + "px";
-    HP_space.style.top = Number(mainField.style.height.split("px")[0]) - (HP_space_heigth * size) + "px";
+    HP_space.style.height = HP_space_heigth * (1 / 2) * size + "px";
+    HP_space.style.top = (Number(mainField.style.height.split("px")[0]) - (HP_space_heigth * (7 / 9) * size)) + "px";
     HP_space.style.left = Number(ill_space.style.width.split("px")[0]) - (HP_space_width * size) + "px";
-    HP_space.style.fontSize = ((HP_space_heigth * size) * (2 / 3)) + "px";
     HP_space.style.textAlign = "center";
+    HP_space.style.fontSize = ((HP_space_heigth * size) * (2 / 5)) + "px";
     HP_space.innerText = HP;
     mainField.appendChild(HP_space);
+
 
     // カードイラストスペースの大きさ
     let card_ill_space_width = 50;
@@ -219,12 +227,13 @@ const init = () => {
         mainField.appendChild(enemy_space);
     }
     // 敵のHPを表示するスペースの大きさ
-    let enemy_HP_space_width = 30;
-    let enemy_HP_space_height = 30;
+    let enemy_HP_space_width = 20;
+    let enemy_HP_space_height = 20;
     // 敵のHPを表示するスペースの作成
     for (let i = 0; i < enemy_space_how; i++) {
         const enemy_HP_space = document.createElement("div");
         enemy_HP_space.id = "enemy_HP_space_" + i;
+        // enemy_HP_space.classList.add("enemy_HP_space_ill");
         enemy_HP_space.style.width = enemy_HP_space_width * size + "px";
         enemy_HP_space.style.height = enemy_HP_space_height * size + "px";
         const enemy_space = document.getElementById("enemy_space_" + i);
@@ -246,7 +255,7 @@ const init = () => {
     turn_end_button.style.top = (Number(mainField.style.height.split("px")[0]) - (turn_end_button_height * size)) / 2 + "px";
     turn_end_button.style.left = (Number(mainField.style.width.split("px")[0]) - (turn_end_button_width * size)) - (5 * size) + "px";
     turn_end_button.style.maxWidth = turn_end_button_width * size + "px";
-    turn_end_button.fontSize = (turn_end_button_height * 2 / 5) * size + "px";
+    turn_end_button.fontSize = (turn_end_button_height * (2 / 5) * size) + "px";
     turn_end_button.innerText = "ターンを\n終了する";
     // turn_end_button.style.borderRadius = turn_end_button_width * size + "px";
     turn_end_button.onclick = turnEnd;
@@ -365,12 +374,12 @@ const setEnemy = () => {
 
         case 2:
             // ステージ２の敵
-            enemy_space_0.classList.add("2,6,6");
+            enemy_space_0.classList.add("2,5,5");
             enemy_space_0.classList.add("enemy_type02");
             enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
 
-            enemy_space_1.classList.add("3,5,5");
-            enemy_space_1.classList.add("enemy_type03");
+            enemy_space_1.classList.add("3,6,6");
+            enemy_space_1.classList.add("enemy_type03-1");
             enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
             break;
 
@@ -392,11 +401,11 @@ const setEnemy = () => {
         case 4:
             // ステージ４の敵
             enemy_space_0.classList.add("5,10,10");
-            enemy_space_0.classList.add("enemy_type02");
+            enemy_space_0.classList.add("enemy_type05");
             enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
 
             enemy_space_1.classList.add("5,10,10");
-            enemy_space_1.classList.add("enemy_type03");
+            enemy_space_1.classList.add("enemy_type05");
             enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
             break;
         
@@ -529,6 +538,15 @@ const useCard = (enemySpace_num, cardType_num) => {
             break;
     }
 
+    // enemy03-1のHPが半分以下になったらenemy03-2に変更
+    if (document.querySelector(".enemy_type03-1")) {
+        let enemy03 = document.querySelector(".enemy_type03-1");
+
+        if (Number(enemy03.classList[1].split(",")[2]) <= (Number(enemy03.classList[1].split(",")[1]) / 2)) {
+            enemy03.classList.replace("enemy_type03-1", "enemy_type03-2");
+        }
+    }
+
     // 敵のHPが０以下になった
     count = 0;
     list = [];
@@ -577,7 +595,7 @@ const enemyAttack = () => {
         }
     }
 
-    for (let i = 0; i < list.length; i++) {
+    for (let i = 0; i < count; i++) {
         let enemy_type = Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[0]);
 
         switch (enemy_type) {
@@ -587,11 +605,45 @@ const enemyAttack = () => {
                 break;
 
             case 2:
-                // 50%で１ダメージ、50%で３ダメージ
-                let ram = Math.floor(Math.random() * 2);
-                if (ram == 0) HP -= 1;
-                else HP -= 3;
+                HP -= 1;
+                document.getElementById("HP_space").innerText = HP;
+                break;
 
+            case 3:
+                // 敵のHPが最大HPの半分以下ならダメージを3倍
+                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 2)) {
+                    HP -= 3;
+                } else {
+                    HP -= 1;
+                }
+                document.getElementById("HP_space").innerText = HP;
+                break;
+
+            case 4:
+                if (count == 1) HP -= 4;
+                else if (count == 2) HP -= 2;
+                else if (count == 3) HP -= 1;
+                document.getElementById("HP_space").innerText = HP;
+                break;
+
+            case 5:
+                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
+                    HP -= 3;
+                } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))) {
+                    HP -= 2;
+                } else {
+                    HP -= 1;
+                }
+                document.getElementById("HP_space").innerText = HP;
+                break;
+
+            case 6:
+                // 敵のHPが最大HPの半分以下ならダメージを3倍
+                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 2)) {
+                    HP -= 6;
+                } else {
+                    HP -= 2;
+                }
                 document.getElementById("HP_space").innerText = HP;
                 break;
 
