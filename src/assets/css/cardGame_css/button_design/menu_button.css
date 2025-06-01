@@ -1,0 +1,26 @@
+/* メニューボタンのデザイン */
+#menu_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    color: #222;
+    background-color: #efefef;
+    border-radius: 50%;
+    box-shadow: -4px -4px 8px #fff, 4px 4px 8px rgb(0 0 0 / 24%);
+}
+
+@media (any-hover: hover) {
+    #menu_button {
+        transition: box-shadow 0.2s;
+    }
+  
+    #menu_button:hover {
+        box-shadow: -2px -2px 4px #fff, 2px 2px 4px rgb(0 0 0 / 24%);
+    }
+  
+    #menu_button:active {
+        background-color: #ebebeb;
+        box-shadow: inset 4px 4px 8px rgb(0 0 0 / 16%);
+    }
+}

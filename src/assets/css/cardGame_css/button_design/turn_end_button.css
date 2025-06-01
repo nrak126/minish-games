@@ -1,0 +1,25 @@
+/* ターンエンドボタンのデザイン */
+#turn_end_button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    /*padding: 6px 25px;*/
+    background: #98c3ed;
+    color: #000;
+    transition: 0.3s ease-in-out;
+    /*font-weight: 600;*/
+    box-shadow: 0 3px 0px #c9da85, 0 5px 50px #c9da85;
+}
+
+#turn_end_button:hover{
+    background:#2769cb;
+    box-shadow: 0 3px 0px #4da4c6,0 4px 15px #4da4c6;
+}
+
+#turn_end_button:active{
+    background:#f2a65f;
+    box-shadow: 0 0px 5px #FF8282;
+    box-shadow: 0 3px 0px #CC6262,0 2px 5px #FF8282;
+}
