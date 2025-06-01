@@ -1,0 +1,63 @@
+/* スタートボタンのデザイン */
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+#start_button {
+    position: relative;
+    display: block;
+    padding: 2px;
+    font-family: sans-serif;
+    color: #fff;
+    text-align: center;
+    overflow-wrap: anywhere;
+    background-color: #939393;
+}
+
+#start_button_bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from var(--angle), #1500ff, #78adee, #1500ff, #78adee, #1500ff);
+    opacity: 0;
+    animation: gradient-spin 3s linear 0s infinite;
+}
+
+@keyframes gradient-spin {
+    0% {
+        --angle: 0deg;
+    }
+  
+    100% {
+        --angle: 360deg;
+    }
+}
+
+#start_button_item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+}
+
+@media (any-hover: hover) {
+    #start_button #start_button_bg {
+        transition: opacity 0.3s;
+    }
+  
+    #start_button:hover {
+        background-color: #939393;
+    }
+  
+    #start_button:hover #start_button_bg {
+        opacity: 1;
+    }
+}
