@@ -1,0 +1,105 @@
+#mainField {
+    position: relative;
+    border: 3px outset #000;
+}
+
+#mainField div {
+    position: absolute;
+    /* border: 1px outset #F00; */
+}
+
+.usingCard {
+    /*background-image: url("");*/
+    background-size: cover;
+    object-fit: cover;
+    position: relative;
+    top: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+
+.hold {
+    border: 2px solid #d61313;
+}
+
+#HP_space_ill {
+    background-image: url(./picture/HP_ill01.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_HP_space_ill {
+    background-image: url(./picture/HP_ill02.png);
+    background-position: center;
+    background-size: cover;
+}
+
+#HP_space {
+    color: #ddd609;
+}
+
+.card_space {
+    background-color: #ccc;
+    border: 1px solid #000;
+    position: relative;
+}
+
+.type_1 {
+    background-image: url(./picture/card01.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.type_2 {
+    background-image: url(./picture/card02.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.type_3 {
+    background-image: url(./picture/card03.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.type_4 {
+    background-image: url(./picture/card04.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.type_5 {
+    background-image: url(./picture/card05.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.type_6 {
+    background-image: url(./picture/card06.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type01 {
+    background-image: url(./picture/enemy01.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type02 {
+    background-image: url(./picture/enemy02.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type03-1 {
+    background-image: url(./picture/enemy03-1.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type03-2 {
+    background-image: url(./picture/enemy03-2.png);
+    background-position: center;
+    background-size: cover;
+}
