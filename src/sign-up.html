@@ -89,6 +89,11 @@
           return;
         }
 
+        if(hp < 0 || power < 0 || speed < 0 || luck < 0) {
+          alert("負の値のステータスがあります");
+          return;
+        }
+
         const player = {
           name,
           hp,
