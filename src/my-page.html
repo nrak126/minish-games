@@ -35,6 +35,9 @@
             <p class="status-value" id="luck"></p>
           </div>
         </div>
+        <button class="reset-button" onclick="resetCharacter()">
+          リセット
+        </button>
       </div>
 
       <div class="action-buttons">
@@ -52,5 +55,18 @@
 		document.getElementById('power').textContent = player.power;
 		document.getElementById('speed').textContent = player.speed;
 		document.getElementById('luck').textContent = player.luck;
+
+    function resetCharacter() {
+      if (confirm('キャラクターをリセットしますか？\n（ステータスが全て消去されます）')) {
+        // ローカルストレージをクリア
+        localStorage.removeItem('player');
+        localStorage.removeItem('installed_card-game');
+        localStorage.removeItem('installed_power-janken');
+        localStorage.removeItem('installed_minish-race');
+        localStorage.removeItem('installed_russian-roulette');
+        // sign-upページへリダイレクト
+        window.location.href = 'sign-up.html';
+      }
+    }
 	</script>
 </html>
