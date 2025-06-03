@@ -4,11 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minish Games</title>
+    <title>Minish Games - パワーじゃんけん</title>
+    <link rel="stylesheet" href="../assets/css/power-janken.css">
   </head>
   <body>
-    <h1 class="title">パワーじゃんけん</h1>
-    <p>fawfawefaefあうぇふぁうぇふぁえffa</p>
-		<button class="home" onclick="window.location.href='../home.html'">戻る</button>
+    <div class="game-container">
+      <h1 class="title">パワーじゃんけん😁</h1>
+      <button class="home" onclick="window.location.href='../home.html'">戻る</button>
+      
+      <div id="computer-hand" class="computer-hand">✊</div>
+      
+      <div id="player-hand" class="player-hand"></div>
+      
+      <div class="player-buttons">
+        <button class="hand-button" onclick="playHand('✊')">✊</button>
+        <button class="hand-button" onclick="playHand('✌️')">✌️</button>
+        <button class="hand-button" onclick="playHand('✋')">✋</button>
+      </div>
+      
+      <div id="result-message" class="result-message"></div>
+      <div id="push-instruction" class="push-instruction" style="display: none;">
+        スペースキーを連打！
+      </div>
+      <button onclick="resetGame()" class="hand-button">最初からプレイ</button>
+    </div>
+    
+    <script src="../assets/js/power-janken.js"></script>
   </body>
 </html>
