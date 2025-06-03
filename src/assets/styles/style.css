@@ -158,7 +158,10 @@ button:hover {
 
 .action-buttons {
   display: flex;
+  flex-flow: column;
   justify-content: center;
+  width: 40%;
+  margin: 0 auto;
   gap: 15px;
 }
 
@@ -174,6 +177,26 @@ button:hover {
 }
 
 .back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.reset-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 30px auto;
+  display: block;
+  width: 200px;
+}
+
+.reset-button:hover {
+  background-color: #cc2333;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -332,10 +355,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .action-buttons {
-    flex-direction: column;
-  }
-
   .back-button {
     width: 100%;
     margin: 5px 0;
@@ -362,6 +381,11 @@ p {
   .install, .game-start {
     width: 100%;
     margin: 5px 0;
+  }
+
+  .reset-button {
+    width: 80%;      /* スマホ表示時は幅を80%に */
+    margin: 20px auto;
   }
 }
 
