@@ -722,9 +722,25 @@ const gameClear = () => {
     // mainFieldを空にする
     mainField.innerHTML = "";
 
-
-
     mainField.innerText = "gameClear!";
+    
+
+    // ホーム画面に戻るボタンの大きさ
+    let home_button_width = 200;
+    let home_button_height = 40;
+    // ホーム画面に戻るボタンの作成
+    const home_button = document.createElement("div");
+    home_button.id = "home_button";
+    home_button.style.width = home_button_width * size + "px";
+    home_button.style.height = home_button_height * size + "px";
+    home_button.style.top = (Number(mainField.style.height.split("px")[0]) * (2 / 3)) + "px";
+    home_button.style.left = (Number(mainField.style.width.split("px")[0]) / 2) - (home_button_width * size / 2) + "px";
+    home_button.onclick = () => {
+        location.href = "../index.html";
+    };
+    home_button.style.fontSize = home_button_height * (2 / 3) * size + "px";
+    home_button.innerText = "ホーム画面に戻る";
+    mainField.appendChild(home_button);
 }
 
 
