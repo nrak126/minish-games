@@ -1,7 +1,7 @@
 let Max_HP = 20;        // 最大HP
 let HP = Max_HP;        // 現在のHP
 let stage = 0;          // 現在のステージ数
-let size = 0;
+let size = 3;
 let retry_flag = false  // リトライフラグ（true:リトライ、false:初回）
 let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6];
 let card_list = card_list_default;
@@ -11,7 +11,7 @@ let card_list_used = [];
 
 // ゲームのスタート画面の作成
 const preparation = () => {
-    if (!retry_flag) size = document.getElementById("size").value;
+    // if (!retry_flag) size = document.getElementById("size").value;
     const mainField = document.getElementById("mainField");
 
     // mainFieldの中身を初期化
