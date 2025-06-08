@@ -52,11 +52,11 @@ function pullTrigger() {
 	} else if (luck >= 30) {
 	    bulletFires = rand < 0.15; // 15%
 	} else {
-	    bulletFires = rand < (1 / 6); // 約16.7%
+	    bulletFires = rand < 0.30; // 30%%
 	}
     } else {
 	document.getElementById("turn-indicator").textContent = "自分の番";
-	bulletFires = rand < (1 / 6) // 約16.7%
+	bulletFires = rand < 0.30 // 30%%
     }
 
     if (bulletFires) {
