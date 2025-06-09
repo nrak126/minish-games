@@ -38,6 +38,10 @@
     color: #ddd609;
 }
 
+.enemy_HP_space {
+    color: #ddd313;
+}
+
 .card_space {
     background-color: #ccc;
     border: 1px solid #000;
@@ -102,4 +106,18 @@
     background-image: url(./picture/enemy03-2.png);
     background-position: center;
     background-size: cover;
+}
+
+
+
+/* カードにカーソルを合わせたときに拡大する */
+.type_1:hover,
+.type_2:hover,
+.type_3:hover,
+.type_4:hover,
+.type_5:hover,
+.type_6:hover {
+    transform: scale(1.8);              /* 1.2倍に拡大 */
+    transition: transform 0.2s ease;    /* スムーズなアニメーション */
+    z-index: 1000;                      /* 他の要素より前面に表示 */
 }
