@@ -124,17 +124,14 @@ const init = () => {
     // const size = document.getElementById("size").value;
     const mainField = document.getElementById("mainField");
 
-    // 最大HPをセット
-    if (!retry_flag) Max_HP = document.getElementById("HP_set").value;
-    HP = Max_HP;
-
     // セッティング欄を空にする
     document.getElementById("setting").innerHTML = "";
 
     // プレイヤー情報をlocalStorageから取得
-    // const player = JSON.parse(localStorage.getItem("player"));
-    // Max_HP = Number(player.name);
-    // HP = Max_HP;
+    const player = JSON.parse(localStorage.getItem("player"));
+    Max_HP = Number(player.name);
+    if (Max_HP <= 0) Max_HP = 1;
+    HP = Max_HP;
 
     // card_listをシャッフル
     card_list = shuffleArray(card_list_default);
