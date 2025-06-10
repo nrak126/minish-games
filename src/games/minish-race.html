@@ -32,7 +32,7 @@
     <progress id="speed" max="1" value="0"></progress><br>
     <canvas id="course" width="800" height="600"></canvas>
     <hr>
-    <button class="home" onclick="window.location.href='/src/home.html'">戻る</button>
+    <button class="home" onclick="window.location.href='../home.html'">戻る</button>
   </body>
   <script>
         let canvas, context; //キャンバス
@@ -195,10 +195,10 @@
             //四角形の描画
             context.fillStyle = "#F3C623";
             context.beginPath();
-            context.moveTo(220 + px*80, 120);
-            context.lineTo(380 + px*80, 120);
-            context.lineTo(380 + px*80, 204);
-            context.lineTo(220 + px*80, 204);
+            context.moveTo(320 + px*80, 220);
+            context.lineTo(480 + px*80, 220);
+            context.lineTo(480 + px*80, 306);
+            context.lineTo(320 + px*80, 306);
             context.fill();
         }
         const drawText = text => {
@@ -216,7 +216,7 @@
         const move = event => {
             //キーを押したとき
             if((status == "start") && event.key == "ArrowUp" || event.code == "KeyW"){
-                speed += 0.004+(speedmlp*0.0001); //0.004=最小で引く数
+                speed += 0.006+(speedmlp*0.0001); //0.005=最小
             }
             if((status == "start") && (event.key == "ArrowLeft") || (event.code == "KeyA")){
                 px -= 0.5;
