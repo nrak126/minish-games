@@ -934,7 +934,9 @@ document.addEventListener('keypress', event => {
                 else if (mainField.classList.contains("tutorial_3")) mainField.classList.replace("tutorial_3", "tutorial_4");
                 else if (mainField.classList.contains("tutorial_4")) mainField.classList.replace("tutorial_4", "tutorial_5");
                 else if (mainField.classList.contains("tutorial_5")) mainField.classList.replace("tutorial_5", "tutorial_6");
-                else if (mainField.classList.contains("tutorial_6")) {
+                else if (mainField.classList.contains("tutorial_6")) mainField.classList.replace("tutorial_6", "tutorial_7");
+                else if (mainField.classList.contains("tutorial_7")) mainField.classList.replace("tutorial_7", "tutorial_8");
+                else if (mainField.classList.contains("tutorial_8")) {
                     mainField.innerHTML = "";
                     mainField.className = "";
                     tutorial_flag = false;
