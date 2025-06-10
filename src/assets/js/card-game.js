@@ -3,6 +3,7 @@ let HP = Max_HP;        // 現在のHP
 let stage = 0;          // 現在のステージ数
 let size = 0;
 let retry_flag = false  // リトライフラグ（true:リトライ、false:初回）
+let tutorial_flag = false; // チュートリアルフラグ（true:チュートリアル、false:通常ゲーム）
 let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6];
 let card_list = card_list_default;
 let card_list_used = [];
@@ -11,7 +12,24 @@ let card_list_used = [];
 
 // ゲームのスタート画面の作成
 const preparation = () => {
-    if (!retry_flag) size = document.getElementById("size").value;
+    const Width = window.innerWidth;        // {number}
+    const Height = window.innerHeight;      // {number}
+
+    // console.log("Width: " + Width);
+    // console.log("Height: " + Height);
+
+    // 画面の大きさに合わせて size を決定
+    if (!retry_flag) {
+        if ((Width / Height) < (16 / 9)) {
+            // 画面の横幅が狭い場合 -> 画面全体を横に合わせる
+            size = Width / 400;
+        } else {
+            // 画面の縦幅が狭い場合 -> 画面全体を縦に合わせる
+            size = Height / 225;
+        }
+    }
+    
+
     const mainField = document.getElementById("mainField");
 
     // mainFieldの中身を初期化
@@ -92,7 +110,10 @@ const tutorial = () => {
 
     // mainFieldの中身を初期化
     mainField.innerHTML = "";
-    
+
+    tutorial_flag = true;
+
+    mainField.classList.add("tutorial_1"); 
 }
 
 // ゲームの初期化関数
@@ -417,7 +438,7 @@ const setEnemy = () => {
         case 5:
             // ステージ５の敵（ボス）
             enemy_space_1.classList.add("6,30,30");
-            enemy_space_1.classList.add("enemy_type06");
+            enemy_space_1.classList.add("enemy_type06-1");
             enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
             break;
 
@@ -552,6 +573,24 @@ const useCard = (enemySpace_num, cardType_num) => {
         }
     }
 
+    // enemy06-1のHPが2/3以下になったらenemy06-2に変更
+    if (document.querySelector(".enemy_type06-1")) {
+        let enemy06 = document.querySelector(".enemy_type06-1");
+
+        if (Number(enemy06.classList[1].split(",")[2]) <= (Number(enemy06.classList[1].split(",")[1]) * (2 / 3))) {
+            enemy06.classList.replace("enemy_type06-1", "enemy_type06-2");
+        }
+    }
+
+    // enemy06-2のHPが1/3以下になったらenemy06-3に変更
+    if (document.querySelector(".enemy_type06-2")) {
+        let enemy06 = document.querySelector(".enemy_type06-2");
+
+        if (Number(enemy06.classList[1].split(",")[2]) <= (Number(enemy06.classList[1].split(",")[1]) / 3)) {
+            enemy06.classList.replace("enemy_type06-2", "enemy_type06-3");
+        }
+    }
+
     // 敵のHPが０以下になった
     count = 0;
     list = [];
@@ -632,20 +671,24 @@ const enemyAttack = () => {
                 break;
 
             case 5:
-                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
-                    HP -= 3;
-                } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))) {
-                    HP -= 2;
-                } else {
-                    HP -= 1;
-                }
+                // if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
+                //     HP -= 3;
+                // } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))) {
+                //     HP -= 2;
+                // } else {
+                //     HP -= 1;
+                // }
+
+                HP -= 3;
                 document.getElementById("HP_space").innerText = HP;
                 break;
 
             case 6:
-                // 敵のHPが最大HPの半分以下ならダメージを3倍
-                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 2)) {
-                    HP -= 6;
+                // enemy_spaceのHPが最大HPの1/3以下ならダメージを8、2/3以下ならダメージを4、それ以外はダメージを2
+                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
+                    HP -= 8;
+                } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))){
+                    HP -= 4;
                 } else {
                     HP -= 2;
                 }
@@ -868,13 +911,39 @@ const changeSize = () => {
 
 
 const play = () => {
-    size = 3;
-    Max_HP = document.getElementById("HP_set").value;
+    size = 1.5;
+    // Max_HP = document.getElementById("HP_set").value;
     retry_flag = true;
+
+    document.getElementById("setting").innerHTML = "";
 
     preparation();
 }
 
+
+
+// キー入力
+document.addEventListener('keypress', event => {
+    switch (event.keyCode) {
+        case 13:        // Enterキー
+            if (tutorial_flag) {
+                const mainField = document.getElementById("mainField");
+
+                if (mainField.classList.contains("tutorial_1")) mainField.classList.replace("tutorial_1", "tutorial_2");
+                else if (mainField.classList.contains("tutorial_2")) mainField.classList.replace("tutorial_2", "tutorial_3");
+                else if (mainField.classList.contains("tutorial_3")) mainField.classList.replace("tutorial_3", "tutorial_4");
+                else if (mainField.classList.contains("tutorial_4")) mainField.classList.replace("tutorial_4", "tutorial_5");
+                else if (mainField.classList.contains("tutorial_5")) mainField.classList.replace("tutorial_5", "tutorial_6");
+                else if (mainField.classList.contains("tutorial_6")) {
+                    mainField.innerHTML = "";
+                    mainField.className = "";
+                    tutorial_flag = false;
+                    preparation();
+                }
+            }
+            break;
+    }
+});
 
 
 
