@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minish Games</title>
+    <title>Minish Race</title>
   </head>
   <body onload="init()">
     <h1 class="title">Minish Race</h1>
@@ -30,7 +30,7 @@
     <span id="message" class="red"></span>
     <hr>
     <progress id="speed" max="1" value="0"></progress><br>
-    <canvas id="course" width="600" height="400"></canvas>
+    <canvas id="course" width="800" height="600"></canvas>
     <hr>
     <button class="home" onclick="window.location.href='/src/home.html'">戻る</button>
   </body>
@@ -48,6 +48,10 @@
         //コースデータ（０：直進、＋：右カーブ、ー：左カーブ）
         const course = new Array();
         const courseData = [0, 0.3, 0.3, -0.3, 0, 0.5, -0.3, 0.5, 0.8, 0, 0];
+
+        //プレイヤーデータ用
+        const player = JSON.parse(localStorage.getItem("player"));
+        const speedmlp = player.speed;
 
         const init = () => { /*関数式の例*/
             //キャンバスの取得
@@ -212,7 +216,7 @@
         const move = event => {
             //キーを押したとき
             if((status == "start") && event.key == "ArrowUp" || event.code == "KeyW"){
-                speed += 0.01-0.004; //0.004=最小で引く数
+                speed += 0.004+(speedmlp*0.0001); //0.004=最小で引く数
             }
             if((status == "start") && (event.key == "ArrowLeft") || (event.code == "KeyA")){
                 px -= 0.5;
