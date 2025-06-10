@@ -108,6 +108,67 @@
     background-size: cover;
 }
 
+.enemy_type04 {
+    background-image: url(./picture/enemy04.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type05 {
+    background-image: url(./picture/enemy05.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-1 {
+    background-image: url(./picture/enemy06-1.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-2 {
+    background-image: url(./picture/enemy06-2.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-3 {
+    background-image: url(./picture/enemy06-3.png);
+    background-position: center;
+    background-size: cover;
+}
+
+/* チュートリアルの背景画像 */
+.tutorial_1 {
+    background-image: url(./slid_ill/slid.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_2 {
+    background-image: url(./slid_ill/slid02.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_3 {
+    background-image: url(./slid_ill/slid03.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_4 {
+    background-image: url(./slid_ill/slid04.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_5 {
+    background-image: url(./slid_ill/slid05.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_6 {
+    background-image: url(./slid_ill/slid06.png);
+    background-position: center;
+    background-size: cover;
+}
 
 
 /* カードにカーソルを合わせたときに拡大する */
