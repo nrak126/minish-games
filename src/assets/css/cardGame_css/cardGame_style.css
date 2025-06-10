@@ -169,6 +169,16 @@
     background-position: center;
     background-size: cover;
 }
+.tutorial_7 {
+    background-image: url(./slid_ill/slid07.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_8 {
+    background-image: url(./slid_ill/slid08.png);
+    background-position: center;
+    background-size: cover;
+}
 
 
 /* カードにカーソルを合わせたときに拡大する */
