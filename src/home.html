@@ -6,6 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minish Games</title>
     <link rel="stylesheet" href="assets/styles/style.css">
+    <style>
+      /* インストールアニメーション */
+      .install.installing {
+        background: linear-gradient(-45deg, #3498db, #2980b9, #3498db, #5dade2);
+        background-size: 400% 400%;
+        animation: installing-gradient 1s ease infinite;
+        pointer-events: none; /* インストール中はクリック無効 */
+      }
+
+      @keyframes installing-gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* インストール中の点滅効果 */
+      .install.installing::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.3);
+        animation: installing-pulse 0.8s ease-in-out infinite alternate;
+        border-radius: inherit;
+      }
+
+      @keyframes installing-pulse {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ホームページのゲームグリッド */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2列に変更 */
+  gap: 30px;
+  max-width: 800px; /* 最大幅を調整 */
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.game-container {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 300px; /* 最小高さを設定して統一感を保つ */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.game-container img {
+  width: 100%;
+  max-width: 150px; /* 画像サイズを調整 */
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 auto 15px;
+}
+
+.game-container h2 {
+  margin: 15px 0;
+  color: #2c3e50;
+  font-size: 1.3em;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .games-grid {
+    grid-template-columns: 1fr; /* スマホでは1列表示 */
+    gap: 20px;
+    max-width: 400px;
+  }
+  
+  .game-container {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .games-grid {
+    padding: 0 10px;
+  }
+  
+  .game-container {
+    padding: 15px;
+    min-height: 220px;
+  }
+  
+  .game-container img {
+    max-width: 120px;
+    height: 100px;
+  }
+}
+    </style>
   </head>
   <body>
     <h1 class="title">Minish games</h1>
@@ -47,36 +162,43 @@
       </div>
     </div>
 		<script>
-      // インストールの状態をローカルストレージから読み込む
-      document.querySelectorAll('.install').forEach(button => {
-        const game = button.dataset.game;
-        const isInstalled = localStorage.getItem(`installed_${game}`) === 'true';
-        if (isInstalled) {
-          button.classList.add('installed');
-          button.textContent = '開く';
-          button.dataset.installed = 'true';
-        }
-      });
+  // インストールの状態をローカルストレージから読み込む
+  document.querySelectorAll('.install').forEach(button => {
+    const game = button.dataset.game;
+    const isInstalled = localStorage.getItem(`installed_${game}`) === 'true';
+    if (isInstalled) {
+      button.classList.add('installed');
+      button.textContent = '開く';
+      button.dataset.installed = 'true';
+    }
+  });
 
-      // インストールボタンのクリックイベント
-      document.querySelectorAll('.install').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const game = e.target.dataset.game;
-          const isInstalled = e.target.dataset.installed === 'true';
+  // インストールボタンのクリックイベント
+  document.querySelectorAll('.install').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const game = e.target.dataset.game;
+      const isInstalled = e.target.dataset.installed === 'true';
 
-          if (!isInstalled) {
-            // インストール処理
-            e.target.classList.add('installed');
-            e.target.textContent = '開く';
-            e.target.dataset.installed = 'true';
-            localStorage.setItem(`installed_${game}`, 'true');
-          } else {
-            // 開くの処理
-            window.location.href = `games/${game}.html`;
-          }
-        });
-      });
-
-		</script>
+      if (!isInstalled) {
+        // インストールアニメーション開始
+        e.target.classList.add('installing');
+        e.target.textContent = 'インストール中...';
+        
+        // 2秒後にインストール完了
+        setTimeout(() => {
+          e.target.classList.remove('installing');
+          e.target.classList.add('installed');
+          e.target.textContent = '開く';
+          e.target.dataset.installed = 'true';
+          localStorage.setItem(`installed_${game}`, 'true');
+        }, 2000);
+        
+      } else {
+        // 開くの処理
+        window.location.href = `games/${game}.html`;
+      }
+    });
+  });
+</script>
 	</body>
 </html>
