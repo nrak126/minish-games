@@ -38,6 +38,10 @@
     color: #ddd609;
 }
 
+.enemy_HP_space {
+    color: #ddd313;
+}
+
 .card_space {
     background-color: #ccc;
     border: 1px solid #000;
@@ -102,4 +106,89 @@
     background-image: url(./picture/enemy03-2.png);
     background-position: center;
     background-size: cover;
+}
+
+.enemy_type04 {
+    background-image: url(./picture/enemy04.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type05 {
+    background-image: url(./picture/enemy05.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-1 {
+    background-image: url(./picture/enemy06-1.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-2 {
+    background-image: url(./picture/enemy06-2.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.enemy_type06-3 {
+    background-image: url(./picture/enemy06-3.png);
+    background-position: center;
+    background-size: cover;
+}
+
+/* チュートリアルの背景画像 */
+.tutorial_1 {
+    background-image: url(./slid_ill/slid.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_2 {
+    background-image: url(./slid_ill/slid02.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_3 {
+    background-image: url(./slid_ill/slid03.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_4 {
+    background-image: url(./slid_ill/slid04.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_5 {
+    background-image: url(./slid_ill/slid05.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_6 {
+    background-image: url(./slid_ill/slid06.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_7 {
+    background-image: url(./slid_ill/slid07.png);
+    background-position: center;
+    background-size: cover;
+}
+.tutorial_8 {
+    background-image: url(./slid_ill/slid08.png);
+    background-position: center;
+    background-size: cover;
+}
+
+
+/* カードにカーソルを合わせたときに拡大する */
+.type_1:hover,
+.type_2:hover,
+.type_3:hover,
+.type_4:hover,
+.type_5:hover,
+.type_6:hover {
+    transform: scale(1.8);              /* 1.2倍に拡大 */
+    transition: transform 0.2s ease;    /* スムーズなアニメーション */
+    z-index: 1000;                      /* 他の要素より前面に表示 */
 }

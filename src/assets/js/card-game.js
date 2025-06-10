@@ -1,8 +1,9 @@
 let Max_HP = 20;        // 最大HP
 let HP = Max_HP;        // 現在のHP
 let stage = 0;          // 現在のステージ数
-let size = 3;
+let size = 0;
 let retry_flag = false  // リトライフラグ（true:リトライ、false:初回）
+let tutorial_flag = false; // チュートリアルフラグ（true:チュートリアル、false:通常ゲーム）
 let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6];
 let card_list = card_list_default;
 let card_list_used = [];
@@ -11,7 +12,24 @@ let card_list_used = [];
 
 // ゲームのスタート画面の作成
 const preparation = () => {
-    // if (!retry_flag) size = document.getElementById("size").value;
+    const Width = window.innerWidth;        // {number}
+    const Height = window.innerHeight;      // {number}
+
+    // console.log("Width: " + Width);
+    // console.log("Height: " + Height);
+
+    // 画面の大きさに合わせて size を決定
+    if (!retry_flag) {
+        if ((Width / Height) < (16 / 9)) {
+            // 画面の横幅が狭い場合 -> 画面全体を横に合わせる
+            size = Width / 400;
+        } else {
+            // 画面の縦幅が狭い場合 -> 画面全体を縦に合わせる
+            size = Height / 225;
+        }
+    }
+    
+
     const mainField = document.getElementById("mainField");
 
     // mainFieldの中身を初期化
@@ -92,7 +110,10 @@ const tutorial = () => {
 
     // mainFieldの中身を初期化
     mainField.innerHTML = "";
-    
+
+    tutorial_flag = true;
+
+    mainField.classList.add("tutorial_1"); 
 }
 
 // ゲームの初期化関数
@@ -103,16 +124,13 @@ const init = () => {
     // const size = document.getElementById("size").value;
     const mainField = document.getElementById("mainField");
 
-    // 最大HPをセット
-    // if (!retry_flag) Max_HP = document.getElementById("HP_set").value;
-    // HP = Max_HP;
-
     // セッティング欄を空にする
     document.getElementById("setting").innerHTML = "";
 
     // プレイヤー情報をlocalStorageから取得
     const player = JSON.parse(localStorage.getItem("player"));
-    Max_HP = Number(player.hp);
+    Max_HP = Number(player.name);
+    if (Max_HP <= 0) Max_HP = 1;
     HP = Max_HP;
 
     // card_listをシャッフル
@@ -233,7 +251,7 @@ const init = () => {
     for (let i = 0; i < enemy_space_how; i++) {
         const enemy_HP_space = document.createElement("div");
         enemy_HP_space.id = "enemy_HP_space_" + i;
-        // enemy_HP_space.classList.add("enemy_HP_space_ill");
+        enemy_HP_space.classList.add("enemy_HP_space");
         enemy_HP_space.style.width = enemy_HP_space_width * size + "px";
         enemy_HP_space.style.height = enemy_HP_space_height * size + "px";
         const enemy_space = document.getElementById("enemy_space_" + i);
@@ -344,6 +362,11 @@ const draw_card = () => {
                 new_card.addEventListener("dragstart", dragStart);
                 new_card.addEventListener("dragend", dragEnd);
 
+                // --- タッチのトリガー -----
+                new_card.addEventListener("touchstart", touchStartCard);
+                new_card.addEventListener("touchmove", touchMoveCard);
+                new_card.addEventListener("touchend", touchEndCard);
+
                 card_space.appendChild(new_card);
             }
         }, 1);
@@ -412,7 +435,7 @@ const setEnemy = () => {
         case 5:
             // ステージ５の敵（ボス）
             enemy_space_1.classList.add("6,30,30");
-            enemy_space_1.classList.add("enemy_type06");
+            enemy_space_1.classList.add("enemy_type06-1");
             enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
             break;
 
@@ -489,7 +512,7 @@ const useCard = (enemySpace_num, cardType_num) => {
             break;
 
         case 4:
-            damage = Math.ceil(HP * 0.2);
+            damage = Math.ceil(HP * 0.25);
             enemy_space.classList.replace((enemy_type + "," + enemy_MaxHP + "," + enemy_HP), (enemy_type + "," + enemy_MaxHP + "," + (enemy_HP - damage)));
             enemy_HP_space.innerText = enemy_HP - damage;
             break;
@@ -544,6 +567,24 @@ const useCard = (enemySpace_num, cardType_num) => {
 
         if (Number(enemy03.classList[1].split(",")[2]) <= (Number(enemy03.classList[1].split(",")[1]) / 2)) {
             enemy03.classList.replace("enemy_type03-1", "enemy_type03-2");
+        }
+    }
+
+    // enemy06-1のHPが2/3以下になったらenemy06-2に変更
+    if (document.querySelector(".enemy_type06-1")) {
+        let enemy06 = document.querySelector(".enemy_type06-1");
+
+        if (Number(enemy06.classList[1].split(",")[2]) <= (Number(enemy06.classList[1].split(",")[1]) * (2 / 3))) {
+            enemy06.classList.replace("enemy_type06-1", "enemy_type06-2");
+        }
+    }
+
+    // enemy06-2のHPが1/3以下になったらenemy06-3に変更
+    if (document.querySelector(".enemy_type06-2")) {
+        let enemy06 = document.querySelector(".enemy_type06-2");
+
+        if (Number(enemy06.classList[1].split(",")[2]) <= (Number(enemy06.classList[1].split(",")[1]) / 3)) {
+            enemy06.classList.replace("enemy_type06-2", "enemy_type06-3");
         }
     }
 
@@ -627,20 +668,24 @@ const enemyAttack = () => {
                 break;
 
             case 5:
-                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
-                    HP -= 3;
-                } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))) {
-                    HP -= 2;
-                } else {
-                    HP -= 1;
-                }
+                // if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
+                //     HP -= 3;
+                // } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))) {
+                //     HP -= 2;
+                // } else {
+                //     HP -= 1;
+                // }
+
+                HP -= 3;
                 document.getElementById("HP_space").innerText = HP;
                 break;
 
             case 6:
-                // 敵のHPが最大HPの半分以下ならダメージを3倍
-                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 2)) {
-                    HP -= 6;
+                // enemy_spaceのHPが最大HPの1/3以下ならダメージを8、2/3以下ならダメージを4、それ以外はダメージを2
+                if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) / 3)) {
+                    HP -= 8;
+                } else if (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[2]) <= (Number(document.getElementById("enemy_space_" + list[i]).classList[1].split(",")[1]) * (2 / 3))){
+                    HP -= 4;
                 } else {
                     HP -= 2;
                 }
@@ -723,7 +768,7 @@ const gameClear = () => {
     mainField.innerHTML = "";
 
     mainField.innerText = "gameClear!";
-    
+
 
     // ホーム画面に戻るボタンの大きさ
     let home_button_width = 200;
@@ -735,9 +780,9 @@ const gameClear = () => {
     home_button.style.height = home_button_height * size + "px";
     home_button.style.top = (Number(mainField.style.height.split("px")[0]) * (2 / 3)) + "px";
     home_button.style.left = (Number(mainField.style.width.split("px")[0]) / 2) - (home_button_width * size / 2) + "px";
-    home_button.onclick = () => {
-        location.href = "../index.html";
-    };
+    // home_button.onclick = () => {
+    //     location.href = "../index.html";
+    // };
     home_button.style.fontSize = home_button_height * (2 / 3) * size + "px";
     home_button.innerText = "ホーム画面に戻る";
     mainField.appendChild(home_button);
@@ -859,4 +904,108 @@ const changeSize = () => {
     if (confirm("画面のサイズを変更すると、ゲームの内容がリセットされます。よろしいですか？")) {
         preparation();
     }
+}
+
+
+const play = () => {
+    size = 1.5;
+    // Max_HP = document.getElementById("HP_set").value;
+    retry_flag = true;
+
+    document.getElementById("setting").innerHTML = "";
+
+    preparation();
+}
+
+
+
+// キー入力
+document.addEventListener('keypress', event => {
+    switch (event.keyCode) {
+        case 13:        // Enterキー
+            if (tutorial_flag) {
+                const mainField = document.getElementById("mainField");
+
+                if (mainField.classList.contains("tutorial_1")) mainField.classList.replace("tutorial_1", "tutorial_2");
+                else if (mainField.classList.contains("tutorial_2")) mainField.classList.replace("tutorial_2", "tutorial_3");
+                else if (mainField.classList.contains("tutorial_3")) mainField.classList.replace("tutorial_3", "tutorial_4");
+                else if (mainField.classList.contains("tutorial_4")) mainField.classList.replace("tutorial_4", "tutorial_5");
+                else if (mainField.classList.contains("tutorial_5")) mainField.classList.replace("tutorial_5", "tutorial_6");
+                else if (mainField.classList.contains("tutorial_6")) mainField.classList.replace("tutorial_6", "tutorial_7");
+                else if (mainField.classList.contains("tutorial_7")) mainField.classList.replace("tutorial_7", "tutorial_8");
+                else if (mainField.classList.contains("tutorial_8")) {
+                    mainField.innerHTML = "";
+                    mainField.className = "";
+                    tutorial_flag = false;
+                    preparation();
+                }
+            }
+            break;
+    }
+});
+
+
+
+
+// --- スマホ対応：タッチ操作によるカード移動 ---
+
+function touchStartCard(event) {
+    const card = event.target;
+    card.classList.add("hold");
+
+    // 最初のタッチ位置を記録
+    card.touchStartX = event.touches[0].clientX;
+    card.touchStartY = event.touches[0].clientY;
+
+    // 初期位置の offset も記録
+    card.offsetLeftStart = card.getBoundingClientRect().left;
+    card.offsetTopStart = card.getBoundingClientRect().top;
+}
+
+function touchMoveCard(event) {
+    event.preventDefault(); // スクロールを止める
+
+    const card = event.target;
+    const moveX = event.touches[0].clientX - card.touchStartX;
+    const moveY = event.touches[0].clientY - card.touchStartY;
+
+    // transform を使ってスムーズに移動
+    card.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.2)`;
+}
+
+function touchEndCard(event) {
+    const card = event.target;
+    card.classList.remove("hold");
+
+    // transform をリセット
+    card.style.transform = "";
+
+    // タッチ位置を取得
+    const touchX = event.changedTouches[0].clientX;
+    const touchY = event.changedTouches[0].clientY;
+
+    // 敵スペースとの当たり判定
+    for (let i = 0; i < 3; i++) {
+        const enemy_space = document.getElementById("enemy_space_" + i);
+        if (enemy_space.classList[1] != null) {
+            const rect = enemy_space.getBoundingClientRect();
+            if (
+                touchX >= rect.left &&
+                touchX <= rect.right &&
+                touchY >= rect.top &&
+                touchY <= rect.bottom
+            ) {
+                // 成功した場合、カードを使う
+                enemy_space.classList.replace("enemyEmpty", "enemyTarget");
+
+                const card_type = card.classList[0].split("_")[1];
+                card.remove();
+
+                useCard(Number(enemy_space.id.split("_")[2]), Number(card_type));
+                return;
+            }
+        }
+    }
+
+    // 失敗（敵にドロップされなかった場合） → カードを元に戻すだけ
 }
