@@ -8,6 +8,14 @@
     /* border: 1px outset #F00; */
 }
 
+.background {
+    background-image: url(./picture/background.png);
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+
 .usingCard {
     /*background-image: url("");*/
     background-size: cover;
@@ -18,8 +26,23 @@
     cursor: pointer;
 }
 
+.card {
+    transform: scale(1.0); 
+}
+
+/* カードにカーソルを合わせたときに拡大する */
+.card:hover {
+    transform: scale(1.8);              /* 1.2倍に拡大 */
+    transition: transform 0.2s ease;    /* スムーズなアニメーション */
+    z-index: 1000;                      /* 他の要素より前面に表示 */
+}
+
 .hold {
     border: 2px solid #d61313;
+
+    transform: scale(1.8);              /* 1.2倍に拡大 */
+    transition: transform 0.2s ease;    /* スムーズなアニメーション */
+    z-index: 2000;                      /* 他の要素より前面に表示 */ 
 }
 
 #HP_space_ill {
@@ -181,14 +204,20 @@
 }
 
 
-/* カードにカーソルを合わせたときに拡大する */
-.type_1:hover,
-.type_2:hover,
-.type_3:hover,
-.type_4:hover,
-.type_5:hover,
-.type_6:hover {
-    transform: scale(1.8);              /* 1.2倍に拡大 */
-    transition: transform 0.2s ease;    /* スムーズなアニメーション */
-    z-index: 1000;                      /* 他の要素より前面に表示 */
+
+
+/* お試し */
+/* 画面全体を覆う黒いオーバーレイ */
+#screenFade {
+    position: fixed;
+    border: 3px outset #000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    pointer-events: none; /* クリックを通す */
+    transition: opacity 0.5s ease; /* フェード用 */
+    z-index: 9999; /* 最前面に */
 }

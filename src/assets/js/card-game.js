@@ -139,6 +139,9 @@ const init = () => {
     // mainFieldの中身を初期化
     mainField.innerHTML = "";
 
+    // 背景を設定
+    mainField.className = "background";
+
     // 手札置き場の枠の大きさ
     let waku_width = 42;
     let waku_height = 63;
