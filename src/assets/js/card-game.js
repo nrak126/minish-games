@@ -38,6 +38,8 @@ const preparation = () => {
     // mainFieldの中身を初期化
     mainField.innerHTML = "";
 
+    mainField.className = "opening";
+
     // mainFieldの大きさを設定
     mainField.style.width = 400 * size + "px";
     mainField.style.height = 225 * size + "px";

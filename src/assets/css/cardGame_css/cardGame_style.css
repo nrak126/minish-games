@@ -8,6 +8,12 @@
     /* border: 1px outset #F00; */
 }
 
+.opening {
+    background-image: url(./picture/opening.png);
+    background-position: center;
+    background-size: cover;
+}
+
 .background {
     background-image: url(./picture/background.png);
     background-position: center;
