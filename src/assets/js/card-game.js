@@ -1,9 +1,10 @@
-let Max_HP = 20;        // 最大HP
+let Max_HP = 4;        // 最大HP
 let HP = Max_HP;        // 現在のHP
 let stage = 0;          // 現在のステージ数
 let size = 0;
 let retry_flag = false  // リトライフラグ（true:リトライ、false:初回）
 let tutorial_flag = false; // チュートリアルフラグ（true:チュートリアル、false:通常ゲーム）
+let turnEnd_flag = false; // ターンエンドフラグ（true:ターンエンド、false:通常ゲーム）
 let card_list_default = [1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 6];
 let card_list = card_list_default;
 let card_list_used = [];
@@ -27,6 +28,8 @@ const preparation = () => {
             // 画面の縦幅が狭い場合 -> 画面全体を縦に合わせる
             size = Height / 225;
         }
+
+        if (size > 3.2) size = 3.2;
     }
     
 
@@ -38,6 +41,9 @@ const preparation = () => {
     // mainFieldの大きさを設定
     mainField.style.width = 400 * size + "px";
     mainField.style.height = 225 * size + "px";
+
+    // document.getElementById("screenFade").style.width = mainField.style.width;
+    // document.getElementById("screenFade").style.height = mainField.style.height;
 
     // スタートボタンの大きさ
     let start_button_width = 120;
@@ -123,6 +129,10 @@ const init = () => {
 
     // const size = document.getElementById("size").value;
     const mainField = document.getElementById("mainField");
+
+    // // 最大HPをセット
+    // if (!retry_flag) Max_HP = document.getElementById("HP_set").value;
+    // HP = Max_HP;
 
     // セッティング欄を空にする
     document.getElementById("setting").innerHTML = "";
@@ -353,6 +363,7 @@ const draw_card = () => {
                 // カードの種類の情報を入れる
                 let card_type = card_list[0];
                 new_card.classList.add("type_" + card_type);
+                new_card.classList.add("card");
                 card_list.shift();
 
                 new_card.draggable = "true";
@@ -378,74 +389,78 @@ const draw_card = () => {
 
 // 敵の表示スペースに敵をセットする
 const setEnemy = () => {
-    // const size = document.getElementById("size").value;
-    const mainField = document.getElementById("mainField");
+    fadeOut(() => {
+        const mainField = document.getElementById("mainField");
 
-    const enemy_space_0 = document.getElementById("enemy_space_0");
-    const enemy_HP_space_0 = document.getElementById("enemy_HP_space_0");
-    const enemy_space_1 = document.getElementById("enemy_space_1");
-    const enemy_HP_space_1 = document.getElementById("enemy_HP_space_1");
-    const enemy_space_2 = document.getElementById("enemy_space_2");
-    const enemy_HP_space_2 = document.getElementById("enemy_HP_space_2");
+        const enemy_space_0 = document.getElementById("enemy_space_0");
+        const enemy_HP_space_0 = document.getElementById("enemy_HP_space_0");
+        const enemy_space_1 = document.getElementById("enemy_space_1");
+        const enemy_HP_space_1 = document.getElementById("enemy_HP_space_1");
+        const enemy_space_2 = document.getElementById("enemy_space_2");
+        const enemy_HP_space_2 = document.getElementById("enemy_HP_space_2");
 
-    stage++;
+        stage++;
 
-    switch (stage) {
-        case 1:
-            // ステージ１の敵
-            enemy_space_1.classList.add("1,10,10");
-            enemy_space_1.classList.add("enemy_type01");
-            enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
-            break;
+        switch (stage) {
+            case 1:
+                // ステージ１の敵
+                enemy_space_1.classList.add("1,10,10");
+                enemy_space_1.classList.add("enemy_type01");
+                enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
+                break;
 
-        case 2:
-            // ステージ２の敵
-            enemy_space_0.classList.add("2,5,5");
-            enemy_space_0.classList.add("enemy_type02");
-            enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
+            case 2:
+                // ステージ２の敵
+                enemy_space_0.classList.add("2,5,5");
+                enemy_space_0.classList.add("enemy_type02");
+                enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
 
-            enemy_space_1.classList.add("3,6,6");
-            enemy_space_1.classList.add("enemy_type03-1");
-            enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
-            break;
+                enemy_space_1.classList.add("3,6,6");
+                enemy_space_1.classList.add("enemy_type03-1");
+                enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
+                break;
 
-        case 3:
-            // ステージ３の敵
-            enemy_space_0.classList.add("4,5,5");
-            enemy_space_0.classList.add("enemy_type04");
-            enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
+            case 3:
+                // ステージ３の敵
+                enemy_space_0.classList.add("4,5,5");
+                enemy_space_0.classList.add("enemy_type04");
+                enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
 
-            enemy_space_1.classList.add("4,5,5");
-            enemy_space_1.classList.add("enemy_type04");
-            enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
+                enemy_space_1.classList.add("4,5,5");
+                enemy_space_1.classList.add("enemy_type04");
+                enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
 
-            enemy_space_2.classList.add("4,5,5");
-            enemy_space_2.classList.add("enemy_type04");
-            enemy_HP_space_2.innerText = enemy_space_2.classList[1].split(",")[1];
-            break;
+                enemy_space_2.classList.add("4,5,5");
+                enemy_space_2.classList.add("enemy_type04");
+                enemy_HP_space_2.innerText = enemy_space_2.classList[1].split(",")[1];
+                break;
 
-        case 4:
-            // ステージ４の敵
-            enemy_space_0.classList.add("5,10,10");
-            enemy_space_0.classList.add("enemy_type05");
-            enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
+            case 4:
+                // ステージ４の敵
+                enemy_space_0.classList.add("5,10,10");
+                enemy_space_0.classList.add("enemy_type05");
+                enemy_HP_space_0.innerText = enemy_space_0.classList[1].split(",")[1];
 
-            enemy_space_1.classList.add("5,10,10");
-            enemy_space_1.classList.add("enemy_type05");
-            enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
-            break;
+                enemy_space_1.classList.add("5,10,10");
+                enemy_space_1.classList.add("enemy_type05");
+                enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
+                break;
         
-        case 5:
-            // ステージ５の敵（ボス）
-            enemy_space_1.classList.add("6,30,30");
-            enemy_space_1.classList.add("enemy_type06-1");
-            enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
-            break;
+            case 5:
+                // ステージ５の敵（ボス）
+                enemy_space_1.classList.add("6,30,30");
+                enemy_space_1.classList.add("enemy_type06-1");
+                enemy_HP_space_1.innerText = enemy_space_1.classList[1].split(",")[1];
+                break;
 
-        default:
-            gameClear();
-            break;
-    }
+            default:
+                gameClear();
+                break;
+        }
+
+        // フェードイン
+        fadeIn();
+    });
 }
 
 // メニュー
@@ -757,6 +772,8 @@ const gameOver = () => {
     retry_button.style.left = (Number(mainField.style.width.split("px")[0]) / 2) - (retry_button_width * size / 2) + "px";
     retry_button.onclick = preparation;
     retry_button.style.fontSize = retry_button_height * (2 / 3) * size + "px";
+    retry_button.style.textAlign = "center";
+    retry_button.style.lineHeight = retry_button_height * size + "px";
     retry_button.innerText = "リトライする";
     mainField.appendChild(retry_button);
 }
@@ -819,13 +836,14 @@ const dragStart = event => {
     const card = event.target;
     // console.log("start");
 
-    card.classList.add("hold");
+    card.classList.replace("card", "hold");
 }
 
 // カードを離した
 const dragEnd = event => {
     const card = event.target;
     // console.log("end");
+    if (card.classList.contains("hold")) card.classList.replace("hold", "card");
 }
 
 // 手札置き場に対しての処理
@@ -848,9 +866,10 @@ function dragDrop() {
     // console.log("drop");
     // this.className = "empty";
     
-
-    const card = document.querySelector(".hold");
-    card.classList.remove("hold");
+    if (document.querySelector(".hold")) {
+        const card = document.querySelector(".hold");
+        card.classList.replace("hold", "card");
+    }
 }
 
 // 敵の表示スペースに対しての処理
@@ -897,7 +916,10 @@ const enemySpaceDragDrop = event => {
         // カードを使う
         useCard(Number(enemy_space.id.split("_")[2]), Number(card_type));
     } else {
-        card.classList.remove("hold");
+        if (document.querySelector(".hold")) {
+            const card = document.querySelector(".hold");
+            card.classList.replace("hold", "card");
+        }
     }
 }
 
@@ -1012,3 +1034,23 @@ function touchEndCard(event) {
 
     // 失敗（敵にドロップされなかった場合） → カードを元に戻すだけ
 }
+
+
+
+
+// --- 画面暗転 ---
+const fadeOut = (callback) => {
+    const fade = document.getElementById("screenFade");
+    fade.style.opacity = 1;
+    fade.style.pointerEvents = "auto";
+    setTimeout(() => {
+        if (callback) callback();
+    }, 500); // フェードアウト後にコールバック
+};
+
+// 画面明転
+const fadeIn = () => {
+    const fade = document.getElementById("screenFade");
+    fade.style.opacity = 0;
+    fade.style.pointerEvents = "none";
+};
